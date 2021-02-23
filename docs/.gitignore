@@ -1,0 +1,7 @@
+build/
+site/
+src/assets/
+src/models/
+src/pages/
+src/notebooks/
+Manifest.toml
