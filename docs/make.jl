@@ -50,7 +50,7 @@ for (i,(title,filename)) in enumerate(Tutorials.files)
   function preprocess_docs(content)
     return string(tutorial_title, "\n", binder_badge, "\n", nbviwer_badge, "\n\n", content)
   end
-  Literate.markdown(joinpath(repo_src,filename), pages_dir; name=tutorial_file, preprocess=preprocess_docs, codefence="```julia" => "```")
+  Literate.markdown(joinpath(repo_src,filename), pages_dir; name=tutorial_file, preprocess=preprocess_docs, execute=true, codefence="```julia" => "```")
 
   # Generate navigation menu entries
   ordered_title = string(i, " ", title)

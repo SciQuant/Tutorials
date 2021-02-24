@@ -1,10 +1,5 @@
 # Tutorials
 
-[![Build Status](https://github.com/rvignolo/Tutorials.jl/workflows/CI/badge.svg)](https://github.com/rvignolo/Tutorials.jl/actions)
-
-
-# SciQuant tutorials
-
 | **Documentation** |
 |:------------ |
 | [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://SciQuant.github.io/Tutorials/stable/) [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://SciQuant.github.io/Tutorials/dev/) |
