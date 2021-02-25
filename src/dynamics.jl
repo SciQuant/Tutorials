@@ -25,7 +25,7 @@
 # implemented in the library.
 #
 # Finally, as discussed in the [documentation](https://sciquant.github.io/UniversalDynamics.jl/dev/ad/dynamics.html#Introduction),
-# the general expression of a dynamics can be reduced depending on the noise type.
+# the general expression of a dynamics can be simplified depending on the noise type.
 #
 # # Setup
 #
@@ -33,8 +33,8 @@
 
 using UniversalDynamics
 
-# Always take into account that any object documentation can be inspected using `?` followed
-# by the object name. For example:
+# Always take into account that most of the objects have documentation that can be inspected
+# using `?` followed by the object name. For example:
 
 # ```
 # # Type ? to enter help mode
@@ -75,8 +75,8 @@ z = SystemDynamics(z0; noise=NonDiagonalNoise(3), ρ=ρ)
 # common in finance, such that it is worth having their coefficients implemented in the
 # library. In this case, we need to provide additional parameters for the coefficients. For
 # example, the well known One-Factor Vasicek model can be given as a One-Factor Short Rate
-# Model of Affine type (see documentation
-# [here](https://sciquant.github.io/UniversalDynamics.jl/dev/ir/short_rate_model.html#One-Factor-Affine-Model)
+# Model of Affine type (checkout the [documentation]
+# (https://sciquant.github.io/UniversalDynamics.jl/dev/ir/short_rate_model.html#One-Factor-Affine-Model)
 # for further details) with some assumptions, namely:
 #    - ``κ``, ``θ`` and ``Σ`` as time independent parameters,
 #    - ``α = 1`` and ``β = 0``.
@@ -85,7 +85,9 @@ r0 = rand(1)
 κ(t) = 0.4363
 θ(t) = 0.0613
 Σ(t) = 0.1491
-r = OneFactorAffineModelDynamics(r0, κ, θ, Σ, one, zero)
+α(t) = one(t)
+β(t) = zero(t)
+r = OneFactorAffineModelDynamics(r0, κ, θ, Σ, α, β)
 
 # As already mentioned, coefficients for these kind of dynamics are already implemented in
 # the library. It is possible to access to them by calling either the `drift` or `difussion`
@@ -93,16 +95,16 @@ r = OneFactorAffineModelDynamics(r0, κ, θ, Σ, one, zero)
 # the parameters type. For example, for the in-place version we need to call
 # `coefficient!(du, u, p, t)`, such that:
 
-du = similar(state(r))
-u = state(r)
-p = UniversalDynamics.parameters(r)
-t = UniversalDynamics.initialtime(r)
+du = similar(get_state(r))
+u = get_state(r)
+p = get_parameters(r)
+t = get_t0(r)
 
-UniversalDynamics.drift!(du, u, p, t)
+drift!(du, u, p, t)
 du
 #-
-du = similar(UniversalDynamics.noise_rate_prototype(r))
-UniversalDynamics.diffusion!(du, u, p, t)
+du = similar(get_noise_rate_prototype(r))
+diffusion!(du, u, p, t)
 du
 
 # One might wonder why do we need to implement model coefficients in the library. For this
@@ -115,24 +117,24 @@ du
 # Once we have defined different dynamics, we can group them in a unique system by declaring
 # a dynamical system (checkout the
 # [documentation](https://sciquant.github.io/UniversalDynamics.jl/dev/ad/dynamicalsystem.html)
-# for more details).
+# for further details):
 
 dynamics = [:x => x, :y => y, :z => z, :r => r]
 ds = DynamicalSystem(dynamics)
 
 # This dynamical system has relevant information, such as its state:
 
-state(ds)
+get_state(ds)
 
 # the initial time:
 
-UniversalDynamics.initialtime(ds)
+get_t0(ds)
 
 # the correlations between noises:
 
-cor(ds)
+get_cor(ds)
 
 # and the noise rate prototype, which represents the prototype that the difussion function
 # either modify in-place or return:
 
-UniversalDynamics.noise_rate_prototype(ds)
+get_noise_rate_prototype(ds)
