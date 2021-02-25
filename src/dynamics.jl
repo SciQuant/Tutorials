@@ -87,10 +87,52 @@ r0 = rand(1)
 Σ(t) = 0.1491
 r = OneFactorAffineModelDynamics(r0, κ, θ, Σ, one, zero)
 
+# As already mentioned, coefficients for these kind of dynamics are already implemented in
+# the library. It is possible to access to them by calling either the `drift` or `difussion`
+# functions on their in-place or out-of-place versions, which are dispatched depending on
+# the parameters type. For example, for the in-place version we need to call
+# `coefficient!(du, u, p, t)`, such that:
+
+du = similar(state(r))
+u = state(r)
+p = UniversalDynamics.parameters(r)
+t = UniversalDynamics.initialtime(r)
+
+UniversalDynamics.drift!(du, u, p, t)
+du
+#-
+du = similar(UniversalDynamics.noise_rate_prototype(r))
+UniversalDynamics.diffusion!(du, u, p, t)
+du
+
+# One might wonder why do we need to implement model coefficients in the library. For this
+# particular example, implementing fast coefficients is easy. However, for Multi-Factor
+# models or other models, computations get more complicated and it is useful to aid the user
+# with fast and traceble functions.
+
 # # Dynamical Systems
 
-# group dynamics in a container
-dynamics = [:x => x, :y => y, :z => z]
+# Once we have defined different dynamics, we can group them in a unique system by declaring
+# a dynamical system (checkout the
+# [documentation](https://sciquant.github.io/UniversalDynamics.jl/dev/ad/dynamicalsystem.html)
+# for more details).
 
-# compute dynamical system
+dynamics = [:x => x, :y => y, :z => z, :r => r]
 ds = DynamicalSystem(dynamics)
+
+# This dynamical system has relevant information, such as its state:
+
+state(ds)
+
+# the initial time:
+
+UniversalDynamics.initialtime(ds)
+
+# the correlations between noises:
+
+cor(ds)
+
+# and the noise rate prototype, which represents the prototype that the difussion function
+# either modify in-place or return:
+
+UniversalDynamics.noise_rate_prototype(ds)
