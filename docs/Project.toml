@@ -1,6 +1,9 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
+NLsolve = "2774e3e8-f4cf-5e23-947b-6d7e65073b56"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 Tutorials = "a23be9e4-3fb3-4e3f-bb56-e0ed2f5b57c7"
+UnPack = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
 UniversalDynamics = "e34ebe0d-adf9-4359-84c2-dfdf884d416d"

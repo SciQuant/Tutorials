@@ -4,11 +4,10 @@
 #    - How to declare dynamics with known coefficients,
 #    - How to declare dynamical systems.
 #
-# # Introduction
+# ## Introduction
 #
-# In **UniversalDynamics** a dynamics represents continuous time, ``D``-dimensional Ito
-# Systems of Stochastic Differential Equations (SDEs) in a time span ``\mathbb{I} =
-# \left[t_0, T \right]``:
+# A dynamics represents continuous time, ``D``-dimensional Ito Systems of Stochastic
+# Differential Equations (SDEs) in a time span ``\mathbb{I} = \left[t_0, T \right]``:
 #
 # ```math
 # d\vec{u}(t) = f(t, \vec{u}(t)) \cdot dt + g(t, \vec{u}(t)) \cdot d\vec{W}(t), \quad \vec{u}(t_0) = \vec{u}_0,\\
@@ -24,24 +23,25 @@
 # second case is a supertype for dynamics with known coefficients that are already
 # implemented in the library.
 #
-# Finally, as discussed in the [documentation](https://sciquant.github.io/UniversalDynamics.jl/dev/ad/dynamics.html#Introduction),
+# Finally, as discussed in the
+# [documentation](https://sciquant.github.io/UniversalDynamics.jl/dev/ad/dynamics.html#Introduction),
 # the general expression of a dynamics can be simplified depending on the noise type.
 #
-# # Setup
+# ## Setup
 #
-# The first step is to load the library:
+# The first step is to load the pertinent library for the tutorial:
 
 using UniversalDynamics
 
 # Always take into account that most of the objects have documentation that can be inspected
 # using `?` followed by the object name. For example:
-
+#
 # ```
 # # Type ? to enter help mode
 # help?> SystemDynamics
 # ```
 #
-# # System Dynamics
+# ## System Dynamics
 #
 # A System of Stochastic Differential Equations with arbitrary coefficients is declared by
 # its initial condition or state, initial time, noise type and noise correlations. For
@@ -69,7 +69,7 @@ z = SystemDynamics(z0; noise=NonDiagonalNoise(3), ρ=ρ)
 # provided in a further step, only if needed. This will become more clear after reading the
 # following sections.
 
-# # Model Dynamics
+# ## Model Dynamics
 #
 # A Model Dynamics refers to Stochastic Differential Equations that are known and fairly
 # common in finance, such that it is worth having their coefficients implemented in the
@@ -112,7 +112,7 @@ du
 # models or other models, computations get more complicated and it is useful to aid the user
 # with fast and traceble functions.
 
-# # Dynamical Systems
+# ## Dynamical Systems
 
 # Once we have defined different dynamics, we can group them in a unique system by declaring
 # a dynamical system (checkout the
@@ -122,7 +122,7 @@ du
 dynamics = [:x => x, :y => y, :z => z, :r => r]
 ds = DynamicalSystem(dynamics)
 
-# This dynamical system has relevant information, such as its state:
+# A dynamical system has relevant information, such as its state:
 
 get_state(ds)
 
@@ -134,7 +134,10 @@ get_t0(ds)
 
 get_cor(ds)
 
-# and the noise rate prototype, which represents the prototype that the difussion function
-# either modify in-place or return:
+# and the noise rate prototype, which represents, in this case, the prototype for `du` that
+# the difussion function modifies in-place:
 
 get_noise_rate_prototype(ds)
+
+# AHORA SEGUIMOS CON DESCRIBIR LAS FUNCIONES DE DRIFT Y DIFFUSION QUE PASAMOS A UN DYNAMICAL
+# SYSTEM ESTO LO HACEMOS EN UNA PESTAÑA NUEVA.
