@@ -3,5 +3,6 @@
 
 const files = [
     "Dynamics" => "dynamics.jl",
-    "Coefficients" => "coefficients.jl"
+    "IIP Coefficients" => "iip_coefficients.jl",
+    "OOP Coefficients" => "oop_coefficients.jl"
 ]

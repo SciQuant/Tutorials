@@ -1,6 +1,6 @@
 # In this tutorial, you will learn:
 #
-#    - How to declare the coefficients for dynamical systems.
+#    - How to declare the in-place coefficients for dynamical systems.
 #
 # ## Introduction
 #
@@ -14,7 +14,8 @@
 # out-of-place (OOP). An in-place function for a coefficient modifies an array in place by
 # receiving its pointer as argument. An out-of-place function for a coefficient returns
 # statically sized arrays. Depending on the size of the problem, one approach is better than
-# the other.
+# the other. In this tutorial, we will focus in the in-place case. Checkout the next
+# tutorial for the out-of-place case.
 #
 # ## Setup
 #
@@ -72,7 +73,7 @@ end;
 # Now we are ready to declare a dynamical system with coefficients, dynamics and parameters:
 
 dynamics = [:S => S]
-params = (r = 0.05, σ = 0.02)
+params = (r = 0.05, σ = 0.1)
 ds = DynamicalSystem(f!, g!, dynamics, params)
 
 # We can now apply a numerical scheme to solve the SDE. For example, the fixed time step,
@@ -159,21 +160,16 @@ end
 x = MultiFactorAffineModelDynamics(x0, ϰ!, θ!, Σ!, α!, β!, ξ₀!, ξ₁!; noise=NonDiagonalNoise(3))
 
 # We will also solve the Money Market Account ``B(t)`` differential equation for the short
-# model in the integrator, so we have to define its dynamics:
+# model with the integrator, so we have to define its dynamics:
 
 B = SystemDynamics(ones(eltype(x), 1))
 
-# Now, let's construct the IIP drift `f!` and diffusion `g!` coefficients for this new
-# scenario. One useful first step is to declare a dynamical system without coefficients and
-# checkout the `noise_rate_prototype` attribute, since it will help us to understand how we
-# must build the diffusion coefficient.
+# As always, before declaring the dynamical system, define a dynamics container:
 
 dynamics = [:S => S, :x => x, :B => B]
-ds = DynamicalSystem(dynamics)
-#-
-get_noise_rate_prototype(ds)
 
-#-
+# Now, let's construct the IIP drift `f!` and diffusion `g!` coefficients for this new
+# scenario.
 
 function f!(du, u, p, t)
     @unpack _dynamics, _securities_ = p
@@ -208,21 +204,63 @@ function g!(du, u, p, t)
     B.dx[] = zero(eltype(u))
 
     return nothing
-end
+end;
+
+# There are many things that are worth to be explained for the coefficients functions:
+#
+#    - `_dynamics` is a special variable containing all the dynamics,
+#    - `_securities_` is a special variable containing one security for each dynamics (why
+#      securities are useful will become clearer later),
+#    - dynamics names are preceded by an underscore for each dynamics,
+#    - securities names are preceded and followed by an underscore for each dynamics,
+#    - `FixedIncomeSecurities` constructs all the basic fixed income securities for the
+#      pertinent interest rate model, for example the discount factor, zero coupon bond,
+#      simple forward rate, spot or Libor rate, etc.
+#
+# Consider building the diffusion coefficient function without using securities:
+
+function g_tedious!(du, u, p, t)
+    @unpack _dynamics = p
+    @unpack _x = _dynamics
+    @unpack σ = p
+
+    S = view(u, 1:1)
+    x = view(u, 2:4)
+    B = view(u, 5:5)
+
+    dS = view(du, 1:1, 1:1)
+    dx = view(du, 2:4, 2:4)
+    dB = view(du, 5:5, 5:5)
+
+    dS[] = σ * S[]
+    diffusion!(dx, x, get_parameters(_x), t)
+    dB[] = zero(eltype(u))
+
+    return nothing
+end;
+
+# Having securities + `remake` allows us to avoid thinking about indexes and `view`s. Take
+# into account that the previous example has diagonal noise and that non-diagonal noise
+# cases are way more complicated.
+#
+# We can now proceed with the numerical solution:
 
 ds = DynamicalSystem(f!, g!, dynamics, params)
-
+#-
 sol = solve(ds, 1.; alg=UniversalDynamics.EM(), seed=1, dt=0.01);
-
-plot(sol, vars=1)
+plot(sol, vars=1, label="S(t)")
 #-
-plot(sol, vars=2:4)
+plot(sol, vars=2:4, label=["x₁(t)" "x₂(t)" "x₃(t)"])
 #-
-plot(sol, vars=5)
+plot(sol, vars=5, label="B(t)")
 
-# There are many things that worth to be mentioned. y aca hablar de remake, porque esta y
-# que nos permite hacer con respecto a no tener que usar indices por todas partes por ej.
-# Tambien hay que hablar acerca de `FixedIncomeSecurities`.
+# A final useful tip or remark is that declaring a dynamical system without coefficients
+# allows to check the `noise_rate_prototype` attribute, which helps undestanding what we
+# must build in the diffusion coefficient:
+
+ds = DynamicalSystem(dynamics)
+#-
+get_noise_rate_prototype(ds)
 
 # [1] Dai, Q. and Singleton, K.J. (2000), Specification Analysis of Affine Term Structure
 # Models.
