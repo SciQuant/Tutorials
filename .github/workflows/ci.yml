@@ -67,7 +67,8 @@ jobs:
             Pkg.add(
               [
                 PackageSpec(url="https://github.com/SciQuant/UniversalDynamics.jl"),
-                PackageSpec(url="https://github.com/SciQuant/UniversalPricing.jl")
+                PackageSpec(url="https://github.com/SciQuant/UniversalPricing.jl"),
+                PackageSpec(path=pwd())
               ]
             )
             Pkg.develop(PackageSpec(path=pwd()))
