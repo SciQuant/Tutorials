@@ -30,7 +30,7 @@ There are different ways to use the tutorials:
 
 Clone the repository
 ```
-$ git clone https://github.com/gridap/Tutorials.git
+$ git clone https://github.com/SciQuant/Tutorials.git
 ```
 
 Move into the folder and open a Julia REPL setting the current folder as the project
@@ -38,7 +38,6 @@ environment.
 ```
 $ cd Tutorials
 $ julia --project=.
-$ julia
                _
    _       _ _(_)_     |  Documentation: https://docs.julialang.org
   (_)     | (_) (_)    |

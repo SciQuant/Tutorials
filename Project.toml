@@ -6,6 +6,7 @@ version = "0.1.0"
 [deps]
 Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
 UniversalDynamics = "e34ebe0d-adf9-4359-84c2-dfdf884d416d"
+UniversalPricing = "8110a956-2552-469c-bcd0-ddf925ed1df7"
 
 [compat]
 julia = "1.5"

@@ -1,6 +1,6 @@
 # In this tutorial, you will learn:
 #
-#    - How to declare the out-of-place coefficients for dynamical systems.
+#    - How to declare out-of-place coefficients for dynamical systems.
 #
 # ## Introduction
 #
@@ -33,7 +33,7 @@ S = SystemDynamics(S0)
 include("assets/DaiSingletonParameters_A3_1.jl")
 (υ₀, θ₀, r₀, μ, ν, κ_rυ, κ, ῡ, θ̄, η, σ_θυ, σ_θr, σ_rυ, σ_rθ, ζ, α_r, β_θ) = DaiSingletonParameters()
 
-# Define all Short Rate model parameters, taking into account the in-place functions:
+# Define all Short Rate model parameters, taking into account OOP coefficients and parameters:
 
 x0 = @SVector [υ₀, θ₀, r₀]
 
@@ -60,12 +60,10 @@ x0 = @SVector [υ₀, θ₀, r₀]
 ]
 
 x = MultiFactorAffineModelDynamics(x0, ϰ, θ, Σ, α, β, ξ₀, ξ₁; noise=NonDiagonalNoise(3))
+#-
 B = SystemDynamics(one(eltype(x)))
 
-dynamics = [:S => S, :x => x, :B => B]
-
-# Now, let's construct the OOP drift `f` and diffusion `g` coefficients for this new
-# scenario.
+# Now, let's construct the OOP drift `f` and diffusion `g` coefficients for this scenario:
 
 function f(u, p, t)
     @unpack _dynamics, _securities_ = p
@@ -106,6 +104,7 @@ function g(u, p, t)
                       0       0       0       0 dB]
 end
 
+dynamics = [:S => S, :x => x, :B => B]
 ds = DynamicalSystem(f, g, dynamics, (σ = 0.1, ))
 #-
 sol = solve(ds, 1.; alg=UniversalDynamics.EM(), seed=1, dt=0.01);

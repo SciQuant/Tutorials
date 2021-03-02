@@ -3,6 +3,8 @@
 
 const files = [
     "Dynamics" => "dynamics.jl",
-    "IIP Coefficients" => "iip_coefficients.jl",
-    "OOP Coefficients" => "oop_coefficients.jl"
+    "Coefficients (in place)" => "iip_coefficients.jl",
+    "Coefficients (out of place)" => "oop_coefficients.jl",
+    "Simulation" => "simulation.jl",
+    "Pricing" => "noncallable_pricing.jl"
 ]

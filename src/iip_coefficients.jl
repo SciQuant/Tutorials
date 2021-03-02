@@ -1,6 +1,6 @@
 # In this tutorial, you will learn:
 #
-#    - How to declare the in-place coefficients for dynamical systems.
+#    - How to declare in-place coefficients for dynamical systems.
 #
 # ## Introduction
 #
@@ -35,11 +35,11 @@ using Plots
 #
 # ## In place coefficients
 #
-# Consider a stock ``S`` under the Black-Scholes-Merton model (BSM). Under the risk-neutral
-# measure ``Q``, the stock process follows:
+# Consider a stock ``S`` following the Black-Scholes-Merton model (BSM). Under the
+# risk-neutral measure ``Q``, the stock process follows:
 
 # ```math
-# dS(t) = r \cdot s(t) \cdot dt + σ \cdot S(t) \cdot dW^Q(t) \quad S(0) = S₀,
+# dS(t) = r \cdot S(t) \cdot dt + σ \cdot S(t) \cdot dW^Q(t) \quad S(0) = S₀,
 # ```
 
 # with risk-free interest rate ``r`` and volatility ``σ``. Let's define this dynamics
@@ -103,7 +103,7 @@ plot(sol)
 include("assets/DaiSingletonParameters_A3_1.jl")
 (υ₀, θ₀, r₀, μ, ν, κ_rυ, κ, ῡ, θ̄, η, σ_θυ, σ_θr, σ_rυ, σ_rθ, ζ, α_r, β_θ) = DaiSingletonParameters()
 
-# Define all Short Rate model parameters, taking into account the in-place functions:
+# Define all Short Rate model parameters, taking into account IIP parameter functions:
 
 x0 = [υ₀, θ₀, r₀]
 
@@ -239,9 +239,7 @@ function g_tedious!(du, u, p, t)
     return nothing
 end;
 
-# Having securities + `remake` allows us to avoid thinking about indexes and `view`s. Take
-# into account that the previous example has diagonal noise and that non-diagonal noise
-# cases are way more complicated.
+# Having securities + `remake` allows us to avoid thinking about indexes and `view`s.
 #
 # We can now proceed with the numerical solution:
 

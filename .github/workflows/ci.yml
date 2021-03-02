@@ -34,9 +34,25 @@ jobs:
             ${{ runner.os }}-
       - name: install UniversalDynamics
         run: |
-          julia --project=@. -e 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/SciQuant/UniversalDynamics.jl"))'
+          julia --project=@. -e '
+            using Pkg
+            Pkg.add(
+              [
+                PackageSpec(url="https://github.com/SciQuant/UniversalDynamics.jl"),
+                PackageSpec(url="https://github.com/SciQuant/UniversalPricing.jl")
+              ]
+            )'
       - uses: julia-actions/julia-buildpkg@v1
-      - run: cd test/; julia --project=.. -e 'using Pkg; Pkg.add(PackageSpec(url="https://github.com/SciQuant/UniversalDynamics.jl"))' --color=yes --check-bounds=yes runtests.jl simple_dynamics.jl
+      - run: |
+          cd test/
+          julia --project=.. -e '
+            using Pkg
+            Pkg.add(
+              [
+                PackageSpec(url="https://github.com/SciQuant/UniversalDynamics.jl"),
+                PackageSpec(url="https://github.com/SciQuant/UniversalPricing.jl")
+              ]
+            )' --color=yes --check-bounds=yes runtests.jl dynamics.jl
   docs:
     name: Documentation
     runs-on: ubuntu-latest
@@ -48,7 +64,12 @@ jobs:
       - run: |
           julia --project=docs -e '
             using Pkg
-            Pkg.add([PackageSpec(url="https://github.com/SciQuant/UniversalDynamics.jl"), PackageSpec(path=pwd())])
+            Pkg.add(
+              [
+                PackageSpec(url="https://github.com/SciQuant/UniversalDynamics.jl"),
+                PackageSpec(url="https://github.com/SciQuant/UniversalPricing.jl")
+              ]
+            )
             Pkg.develop(PackageSpec(path=pwd()))
             Pkg.instantiate()
             Pkg.build()'
