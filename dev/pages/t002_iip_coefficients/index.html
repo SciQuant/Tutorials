@@ -4,7 +4,7 @@ using UnPack
 using Plots</code></pre><p>Always take into account that most of the objects have documentation that can be inspected using <code>?</code> followed by the object name. For example:</p><pre><code class="language-none"># Type ? to enter help mode
 help?&gt; SystemDynamics</code></pre><h2 id="In-place-coefficients"><a class="docs-heading-anchor" href="#In-place-coefficients">In place coefficients</a><a id="In-place-coefficients-1"></a><a class="docs-heading-anchor-permalink" href="#In-place-coefficients" title="Permalink"></a></h2><p>Consider a stock <span>$S$</span> following the Black-Scholes-Merton model (BSM). Under the risk-neutral measure <span>$Q$</span>, the stock process follows:</p><p class="math-container">\[dS(t) = r \cdot S(t) \cdot dt + σ \cdot S(t) \cdot dW^Q(t) \quad S(0) = S₀,\]</p><p>with risk-free interest rate <span>$r$</span> and volatility <span>$σ$</span>. Let&#39;s define this dynamics using what we already know from the previous tutorial:</p><pre><code class="language-julia">S0 = rand(1)
 S = SystemDynamics(S0)</code></pre><pre><code class="language-none">1-dimensional system dynamics with 1-dimensional DiagonalNoise
- state:           [0.763695]
+ state:           [0.813609]
  in-place?        true
  Dimension:       1
  Noise dimension: 1
@@ -30,7 +30,7 @@ end;
 nothing #hide</code></pre><p>Now we are ready to declare a dynamical system with coefficients, dynamics and parameters:</p><pre><code class="language-julia">dynamics = [:S =&gt; S]
 params = (r = 0.05, σ = 0.1)
 ds = DynamicalSystem(f!, g!, dynamics, params)</code></pre><pre><code class="language-none">1-dimensional dynamical system with 1-dimensional DiagonalNoise
- state:           [0.763695]
+ state:           [0.813609]
  in-place?        true
  Dimension:       1
  Noise dimension: 1
@@ -102,7 +102,7 @@ x = MultiFactorAffineModelDynamics(x0, ϰ!, θ!, Σ!, α!, β!, ξ₀!, ξ₁!; 
  Noise dimension: 1
  diagonal noise?  true</code></pre><p>As always, before declaring the dynamical system, define a dynamics container:</p><pre><code class="language-julia">dynamics = [:S =&gt; S, :x =&gt; x, :B =&gt; B]</code></pre><pre><code class="language-none">3-element Array{Pair{Symbol,UniversalDynamics.AbstractDynamics{true,Dim,NoiseDim,DiagNoise,Float64} where DiagNoise where NoiseDim where Dim},1}:
  :S =&gt; 1-dimensional system dynamics with 1-dimensional DiagonalNoise
- state:           [0.763695]
+ state:           [0.813609]
  in-place?        true
  Dimension:       1
  Noise dimension: 1
@@ -172,13 +172,13 @@ nothing #hide</code></pre><p>There are many things that are worth to be explaine
     return nothing
 end;
 nothing #hide</code></pre><p>Having securities + <code>remake</code> allows us to avoid thinking about indexes and <code>view</code>s.</p><p>We can now proceed with the numerical solution:</p><pre><code class="language-julia">ds = DynamicalSystem(f!, g!, dynamics, params)</code></pre><pre><code class="language-none">5-dimensional dynamical system with 5-dimensional NonDiagonalNoise
- state:           [0.763695, 0.00839, 1.06997, 2.08265, 1.0]
+ state:           [0.813609, 0.00839, 1.06997, 2.08265, 1.0]
  in-place?        true
  Dimension:       5
  Noise dimension: 5
  diagonal noise?  false</code></pre><pre><code class="language-julia">sol = solve(ds, 1.; alg=UniversalDynamics.EM(), seed=1, dt=0.01);
 plot(sol, vars=1, label=&quot;S(t)&quot;)</code></pre><p><img src="../1306167583.png" alt/></p><pre><code class="language-julia">plot(sol, vars=2:4, label=[&quot;x₁(t)&quot; &quot;x₂(t)&quot; &quot;x₃(t)&quot;])</code></pre><p><img src="../1768798754.png" alt/></p><pre><code class="language-julia">plot(sol, vars=5, label=&quot;B(t)&quot;)</code></pre><p><img src="../1616444853.png" alt/></p><p>A final useful tip or remark is that declaring a dynamical system without coefficients allows to check the <code>noise_rate_prototype</code> attribute, which helps undestanding what we must build in the diffusion coefficient:</p><pre><code class="language-julia">ds = DynamicalSystem(dynamics)</code></pre><pre><code class="language-none">5-dimensional dynamical system with 5-dimensional NonDiagonalNoise
- state:           [0.763695, 0.00839, 1.06997, 2.08265, 1.0]
+ state:           [0.813609, 0.00839, 1.06997, 2.08265, 1.0]
  in-place?        true
  Dimension:       5
  Noise dimension: 5
@@ -187,4 +187,4 @@ plot(sol, vars=1, label=&quot;S(t)&quot;)</code></pre><p><img src="../1306167583
  0.0  1.0  1.0  1.0  0.0
  0.0  1.0  1.0  1.0  0.0
  0.0  1.0  1.0  1.0  0.0
- 0.0  0.0  0.0  0.0  1.0</code></pre><p>[1] Dai, Q. and Singleton, K.J. (2000), Specification Analysis of Affine Term Structure Models.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t001_dynamics/">« 1 Dynamics</a><a class="docs-footer-nextpage" href="../t003_oop_coefficients/">3 Coefficients (out of place) »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 3 March 2021 01:14">Wednesday 3 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ 0.0  0.0  0.0  0.0  1.0</code></pre><p>[1] Dai, Q. and Singleton, K.J. (2000), Specification Analysis of Affine Term Structure Models.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t001_dynamics/">« 1 Dynamics</a><a class="docs-footer-nextpage" href="../t003_oop_coefficients/">3 Coefficients (out of place) »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 3 March 2021 05:00">Wednesday 3 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
