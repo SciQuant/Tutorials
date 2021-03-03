@@ -79,7 +79,8 @@ z = SystemDynamics(z0; noise=NonDiagonalNoise(3), ρ=ρ)
 # (https://sciquant.github.io/UniversalDynamics.jl/dev/ir/short_rate_model.html#One-Factor-Affine-Model)
 # for further details) with some assumptions, namely:
 #    - ``κ``, ``θ`` and ``Σ`` as time independent parameters,
-#    - ``α = 1`` and ``β = 0``.
+#    - ``α = 1`` and ``β = 0``,
+#    - ``\xi_0 = 0`` and ``\xi_1 = 1``.
 
 r0 = rand(1)
 κ(t) = 0.4363

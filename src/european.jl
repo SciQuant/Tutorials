@@ -1,7 +1,6 @@
 # In this tutorial, you will learn:
 #
-#    - How to price non callable/cancellable derivatives, i.e. European style derivatives,
-#      by means of a Monte Carlo expected value estimate.
+#    - How to price European style derivatives using a Monte Carlo expected value estimate.
 #
 # ## Introduction
 #
@@ -26,7 +25,7 @@
 using UniversalPricing
 using UnPack
 
-# ## Vanilla Option
+# ## Pricing
 #
 # Consider the same dividend-free stock ``S`` with Black-Scholes-Merton dynamics under the
 # risk-neutral measure that we have already discussed in previous tutorials:
@@ -67,7 +66,7 @@ params = (r = 0.05, σ = 0.1)
 ds = DynamicalSystem(f, g, dynamics, params)
 sol = montecarlo(ds, 1., 10_000; seed=1);
 
-# The payoff for a call option with strike ``K`` and maturity ``T`` is given by:
+# The payoff for a vanilla call option with strike ``K`` and maturity ``T`` is given by:
 
 # ```math
 # V(T) = \max \left( S(T) - K, 0 \right).
@@ -79,16 +78,16 @@ sol = montecarlo(ds, 1., 10_000; seed=1);
 # V(0) = B(0) \cdot E_t^{Q} \left[ \frac{V(T)}{B(T)} \right] = E_t^{Q} \left[ D(0, T) \cdot V(T) \right]
 # ```
 
-# with ``D(t, T)`` the discount factor, which in this simple case is given by:
+# with ``D(t, T)`` the discount factor, which in the simple flat rate model is given by:
 
 # ```math
 # D(t, T) = \exp \left( -r \cdot (T - t) \right).
 # ```
 
 # In order to price such derivative, we first need to declare a function that computes the
-# payoff given a set of parameters and simulations:
+# discounted payoff given the simulations and a set of parameters:
 
-function payoff(sol, p)
+function discounted_payoff(sol, p)
     @unpack _securities_ = p
     @unpack _S_ = _securities_
 
@@ -100,7 +99,7 @@ function payoff(sol, p)
     return exp(-r * (T - 0)) * max(S(T) - K, 0)
 end
 
-# We can now compute the expectation:
+# We can now compute the expectation that yields to the fair price of the option:
 
 params = (ds.params..., T = 1., K = 1.)
-fv = 𝔼(payoff, sol, params)
+price = 𝔼(discounted_payoff, sol, params)

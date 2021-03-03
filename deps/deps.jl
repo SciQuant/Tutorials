@@ -6,5 +6,10 @@ const files = [
     "Coefficients (in place)" => "iip_coefficients.jl",
     "Coefficients (out of place)" => "oop_coefficients.jl",
     "Simulation" => "simulation.jl",
-    "Pricing" => "noncallable_pricing.jl"
+    "European Option" => "european.jl",
+    "American Option" => "american.jl",
+    "Short Rate Model" => "short_rate_model.jl",
+    "Libor Market Model" => "libor_market_model.jl",
+    # "Callable Libor Exotic" => "CLE.jl",
+    # "Cancellable Libor Exotic" => "CnLE.jl"
 ]
