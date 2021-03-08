@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>2 Coefficients (in place) · SciQuant tutorials</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">SciQuant tutorials</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Introduction</a></li><li><a class="tocitem" href="../t001_dynamics/">1 Dynamics</a></li><li class="is-active"><a class="tocitem" href>2 Coefficients (in place)</a><ul class="internal"><li><a class="tocitem" href="#Introduction"><span>Introduction</span></a></li><li><a class="tocitem" href="#Setup"><span>Setup</span></a></li><li><a class="tocitem" href="#In-place-coefficients"><span>In place coefficients</span></a></li></ul></li><li><a class="tocitem" href="../t003_oop_coefficients/">3 Coefficients (out of place)</a></li><li><a class="tocitem" href="../t004_simulation/">4 Simulation</a></li><li><a class="tocitem" href="../t005_european/">5 European Option</a></li><li><a class="tocitem" href="../t006_american/">6 American Option</a></li><li><a class="tocitem" href="../t007_short_rate_model/">7 Short Rate Model</a></li><li><a class="tocitem" href="../t008_libor_market_model/">8 Libor Market Model</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>2 Coefficients (in place)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>2 Coefficients (in place)</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/SciQuant/Tutorials/blob/master/src/iip_coefficients.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Tutorial-2:-Coefficients-(in-place)"><a class="docs-heading-anchor" href="#Tutorial-2:-Coefficients-(in-place)">Tutorial 2: Coefficients (in place)</a><a id="Tutorial-2:-Coefficients-(in-place)-1"></a><a class="docs-heading-anchor-permalink" href="#Tutorial-2:-Coefficients-(in-place)" title="Permalink"></a></h1><p><a href="https://mybinder.org/v2/gh/SciQuant/Tutorials/gh-pages?filepath=dev/notebooks/t002_iip_coefficients.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt/></a> <a href="https://nbviewer.jupyter.org/github/SciQuant/Tutorials/blob/gh-pages/dev/notebooks/t002_iip_coefficients.ipynb"><img src="https://img.shields.io/badge/show-nbviewer-579ACA.svg" alt/></a></p><p>In this tutorial, you will learn:</p><ul><li>How to declare in-place coefficients for dynamical systems.</li></ul><h2 id="Introduction"><a class="docs-heading-anchor" href="#Introduction">Introduction</a><a id="Introduction-1"></a><a class="docs-heading-anchor-permalink" href="#Introduction" title="Permalink"></a></h2><p>In the previous tutorial we have learned how to declare system dynamics as well as model dynamics individually. Next, we constructed a dynamical system by using a collection of dynamics but without considering coefficients. Now we would like to focus in the construction of the coefficients that will allows us to define a dynamical system that can be solved by applying a discretization scheme.</p><p>First we must realize that there are two types of coefficients: in-place (IIP) and out-of-place (OOP). An in-place function for a coefficient modifies an array in place by receiving its pointer as argument. An out-of-place function for a coefficient returns statically sized arrays. Depending on the size of the problem, one approach is better than the other. In this tutorial, we will focus in the in-place case. Checkout the next tutorial for the out-of-place case.</p><h2 id="Setup"><a class="docs-heading-anchor" href="#Setup">Setup</a><a id="Setup-1"></a><a class="docs-heading-anchor-permalink" href="#Setup" title="Permalink"></a></h2><p>The first step is to load the pertinent libraries for the tutorial:</p><pre><code class="language-julia">using UniversalDynamics
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>2 Coefficients (in place) · SciQuant tutorials</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">SciQuant tutorials</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Introduction</a></li><li><a class="tocitem" href="../t001_dynamics/">1 Dynamics</a></li><li class="is-active"><a class="tocitem" href>2 Coefficients (in place)</a><ul class="internal"><li><a class="tocitem" href="#Introduction"><span>Introduction</span></a></li><li><a class="tocitem" href="#Setup"><span>Setup</span></a></li><li><a class="tocitem" href="#In-place-coefficients"><span>In place coefficients</span></a></li></ul></li><li><a class="tocitem" href="../t003_oop_coefficients/">3 Coefficients (out of place)</a></li><li><a class="tocitem" href="../t004_simulation/">4 Simulation</a></li><li><a class="tocitem" href="../t005_european/">5 European Option</a></li><li><a class="tocitem" href="../t006_american/">6 American Option</a></li><li><a class="tocitem" href="../t007_short_rate_model/">7 Short Rate Model</a></li><li><a class="tocitem" href="../t008_libor_market_model/">8 Libor Market Model</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>2 Coefficients (in place)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>2 Coefficients (in place)</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/SciQuant/Tutorials/blob/master/src/iip_coefficients.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Tutorial-2:-Coefficients-(in-place)"><a class="docs-heading-anchor" href="#Tutorial-2:-Coefficients-(in-place)">Tutorial 2: Coefficients (in place)</a><a id="Tutorial-2:-Coefficients-(in-place)-1"></a><a class="docs-heading-anchor-permalink" href="#Tutorial-2:-Coefficients-(in-place)" title="Permalink"></a></h1><p><a href="https://mybinder.org/v2/gh/SciQuant/Tutorials/gh-pages?filepath=dev/notebooks/t002_iip_coefficients.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt/></a> <a href="https://nbviewer.jupyter.org/github/SciQuant/Tutorials/blob/gh-pages/dev/notebooks/t002_iip_coefficients.ipynb"><img src="https://img.shields.io/badge/show-nbviewer-579ACA.svg" alt/></a></p><p>In this tutorial, you will learn:</p><ul><li>How to declare in-place coefficients for dynamical systems.</li></ul><h2 id="Introduction"><a class="docs-heading-anchor" href="#Introduction">Introduction</a><a id="Introduction-1"></a><a class="docs-heading-anchor-permalink" href="#Introduction" title="Permalink"></a></h2><p>In the previous tutorial we have learned how to declare system dynamics as well as model dynamics individually. Next, we constructed a dynamical system by using a collection of dynamics but without considering coefficients. Now we would like to focus in the construction of the coefficients that will allows us to define a dynamical system that can be solved by applying a discretization scheme.</p><p>First we must realize that there are two types of coefficients: in-place (IIP) and out-of-place (OOP). An in-place function for a coefficient modifies an array in place by receiving its pointer as argument. An out-of-place function for a coefficient returns statically sized arrays. Depending on the size of the problem, one approach is better than the other. In this tutorial we will focus in the in-place case. Checkout the next tutorial for the out-of-place case.</p><h2 id="Setup"><a class="docs-heading-anchor" href="#Setup">Setup</a><a id="Setup-1"></a><a class="docs-heading-anchor-permalink" href="#Setup" title="Permalink"></a></h2><p>The first step is to load the pertinent libraries for the tutorial:</p><pre><code class="language-julia">using UniversalDynamics
 using UnPack
-using Plots</code></pre><p>Always take into account that most of the objects have documentation that can be inspected using <code>?</code> followed by the object name. For example:</p><pre><code class="language-none"># Type ? to enter help mode
-help?&gt; SystemDynamics</code></pre><h2 id="In-place-coefficients"><a class="docs-heading-anchor" href="#In-place-coefficients">In place coefficients</a><a id="In-place-coefficients-1"></a><a class="docs-heading-anchor-permalink" href="#In-place-coefficients" title="Permalink"></a></h2><p>Consider a stock <span>$S$</span> following the Black-Scholes-Merton model (BSM). Under the risk-neutral measure <span>$Q$</span>, the stock process follows:</p><p class="math-container">\[dS(t) = r \cdot S(t) \cdot dt + σ \cdot S(t) \cdot dW^Q(t) \quad S(0) = S₀,\]</p><p>with risk-free interest rate <span>$r$</span> and volatility <span>$σ$</span>. Let&#39;s define this dynamics using what we already know from the previous tutorial:</p><pre><code class="language-julia">S0 = rand(1)
+using Plots</code></pre><h2 id="In-place-coefficients"><a class="docs-heading-anchor" href="#In-place-coefficients">In place coefficients</a><a id="In-place-coefficients-1"></a><a class="docs-heading-anchor-permalink" href="#In-place-coefficients" title="Permalink"></a></h2><p>Consider a stock <span>$S$</span> following the Black-Scholes-Merton model (BSM). Under the risk-neutral measure <span>$Q$</span>, the stock process follows:</p><p class="math-container">\[dS(t) = r \cdot S(t) \cdot dt + σ \cdot S(t) \cdot dW^Q(t) \quad S(0) = S₀,\]</p><p>with risk-free interest rate <span>$r$</span> and volatility <span>$σ$</span>. Let&#39;s define this dynamics using what we already know from the previous tutorial:</p><pre><code class="language-julia">S0 = rand(1)
 S = SystemDynamics(S0)</code></pre><pre><code class="language-none">1-dimensional system dynamics with 1-dimensional DiagonalNoise
- state:           [0.813609]
+ state:           [0.00629341]
  in-place?        true
- Dimension:       1
- Noise dimension: 1
+ dimension:       1
+ noise dimension: 1
  diagonal noise?  true</code></pre><p>The IIP drift <code>f!</code> and diffusion <code>g!</code> coefficients are given by:</p><pre><code class="language-julia">function f!(du, u, p, t)
     # unpack risk-free rate parameter
     @unpack r = p
@@ -30,10 +29,10 @@ end;
 nothing #hide</code></pre><p>Now we are ready to declare a dynamical system with coefficients, dynamics and parameters:</p><pre><code class="language-julia">dynamics = [:S =&gt; S]
 params = (r = 0.05, σ = 0.1)
 ds = DynamicalSystem(f!, g!, dynamics, params)</code></pre><pre><code class="language-none">1-dimensional dynamical system with 1-dimensional DiagonalNoise
- state:           [0.813609]
+ state:           [0.00629341]
  in-place?        true
- Dimension:       1
- Noise dimension: 1
+ dimension:       1
+ noise dimension: 1
  diagonal noise?  true</code></pre><p>We can now apply a numerical scheme to solve the SDE. For example, the fixed time step, strong order 0.5 for all kind of noises, Euler-Maruyama scheme:</p><pre><code class="language-julia">sol = solve(ds, 1.; alg=UniversalDynamics.EM(), seed=1, dt=0.01)
 plot(sol)</code></pre><p><img src="../3819680598.png" alt/></p><p>Or an adaptive time step, strong order 1.5 and weak order 2.0 for diagonal and scalar noise:</p><pre><code class="language-julia">sol = solve(ds, 1.; alg=UniversalDynamics.SRIW1(), seed=1)
 plot(sol)</code></pre><p><img src="../1734411145.png" alt/></p><p>Let&#39;s spice up the example and consider stochastic interest rates given by a Multi-Factor Affine Short Rate model. This will allow us to use some additional features that comes in handy for building the coefficients.</p><p>The Multi-Factor Short Rate model that we will refer to is decribed in [1] as <span>$AM₁(3)$</span> in its <span>$Ar$</span> representation and its given by a System of SDEs described in the <a href="https://sciquant.github.io/UniversalDynamics.jl/dev/ir/short_rate_model.html#Multi-Factor-Affine-Model">documentation</a>. Our library allows us to describe such complex model fairly easy, requiring only the definition of some constants and functions.</p><p>Start by loading some parameters values for the Short Rate Model:</p><pre><code class="language-julia"># load some parameters
@@ -93,39 +92,39 @@ end
 x = MultiFactorAffineModelDynamics(x0, ϰ!, θ!, Σ!, α!, β!, ξ₀!, ξ₁!; noise=NonDiagonalNoise(3))</code></pre><pre><code class="language-none">3-dimensional Multi-Factor Affine Short Rate model dynamics
  state:           [0.00839, 1.06997, 2.08265]
  in-place?        true
- Dimension:       3
- Noise dimension: 3
+ dimension:       3
+ noise dimension: 3
  diagonal noise?  false</code></pre><p>We will also solve the Money Market Account <span>$B(t)$</span> differential equation for the short model with the integrator, so we have to define its dynamics:</p><pre><code class="language-julia">B = SystemDynamics(ones(eltype(x), 1))</code></pre><pre><code class="language-none">1-dimensional system dynamics with 1-dimensional DiagonalNoise
  state:           [1.0]
  in-place?        true
- Dimension:       1
- Noise dimension: 1
+ dimension:       1
+ noise dimension: 1
  diagonal noise?  true</code></pre><p>As always, before declaring the dynamical system, define a dynamics container:</p><pre><code class="language-julia">dynamics = [:S =&gt; S, :x =&gt; x, :B =&gt; B]</code></pre><pre><code class="language-none">3-element Array{Pair{Symbol,UniversalDynamics.AbstractDynamics{true,Dim,NoiseDim,DiagNoise,Float64} where DiagNoise where NoiseDim where Dim},1}:
  :S =&gt; 1-dimensional system dynamics with 1-dimensional DiagonalNoise
- state:           [0.813609]
+ state:           [0.00629341]
  in-place?        true
- Dimension:       1
- Noise dimension: 1
+ dimension:       1
+ noise dimension: 1
  diagonal noise?  true
  :x =&gt; 3-dimensional Multi-Factor Affine Short Rate model dynamics
  state:           [0.00839, 1.06997, 2.08265]
  in-place?        true
- Dimension:       3
- Noise dimension: 3
+ dimension:       3
+ noise dimension: 3
  diagonal noise?  false
  :B =&gt; 1-dimensional system dynamics with 1-dimensional DiagonalNoise
  state:           [1.0]
  in-place?        true
- Dimension:       1
- Noise dimension: 1
+ dimension:       1
+ noise dimension: 1
  diagonal noise?  true</code></pre><p>Now, let&#39;s construct the IIP drift <code>f!</code> and diffusion <code>g!</code> coefficients for this new scenario.</p><pre><code class="language-julia">function f!(du, u, p, t)
     @unpack _dynamics, _securities_ = p
     @unpack _x = _dynamics
     @unpack _S_, _x_, _B_ = _securities_
 
-    S = remake(_S_, u, du)
-    x = remake(_x_, u, du)
-    B = remake(_B_, u, du)
+    S = remake(_S_, du, u, t)
+    x = remake(_x_, du, u, t)
+    B = remake(_B_, du, u, t)
 
     IR = FixedIncomeSecurities(_x, x, B)
 
@@ -142,9 +141,9 @@ function g!(du, u, p, t)
     @unpack _S_, _x_, _B_ = _securities_
     @unpack σ = p
 
-    S = remake(_S_, u, du)
-    x = remake(_x_, u, du)
-    B = remake(_B_, u, du)
+    S = remake(_S_, du, u, t)
+    x = remake(_x_, du, u, t)
+    B = remake(_B_, du, u, t)
 
     S.dx[] = σ * S(t)
     diffusion!(x.dx, x(t), get_parameters(_x), t)
@@ -172,19 +171,19 @@ nothing #hide</code></pre><p>There are many things that are worth to be explaine
     return nothing
 end;
 nothing #hide</code></pre><p>Having securities + <code>remake</code> allows us to avoid thinking about indexes and <code>view</code>s.</p><p>We can now proceed with the numerical solution:</p><pre><code class="language-julia">ds = DynamicalSystem(f!, g!, dynamics, params)</code></pre><pre><code class="language-none">5-dimensional dynamical system with 5-dimensional NonDiagonalNoise
- state:           [0.813609, 0.00839, 1.06997, 2.08265, 1.0]
+ state:           [0.00629341, 0.00839, 1.06997, 2.08265, 1.0]
  in-place?        true
- Dimension:       5
- Noise dimension: 5
+ dimension:       5
+ noise dimension: 5
  diagonal noise?  false</code></pre><pre><code class="language-julia">sol = solve(ds, 1.; alg=UniversalDynamics.EM(), seed=1, dt=0.01);
 plot(sol, vars=1, label=&quot;S(t)&quot;)</code></pre><p><img src="../1306167583.png" alt/></p><pre><code class="language-julia">plot(sol, vars=2:4, label=[&quot;x₁(t)&quot; &quot;x₂(t)&quot; &quot;x₃(t)&quot;])</code></pre><p><img src="../1768798754.png" alt/></p><pre><code class="language-julia">plot(sol, vars=5, label=&quot;B(t)&quot;)</code></pre><p><img src="../1616444853.png" alt/></p><p>A final useful tip or remark is that declaring a dynamical system without coefficients allows to check the <code>noise_rate_prototype</code> attribute, which helps undestanding what we must build in the diffusion coefficient:</p><pre><code class="language-julia">ds = DynamicalSystem(dynamics)</code></pre><pre><code class="language-none">5-dimensional dynamical system with 5-dimensional NonDiagonalNoise
- state:           [0.813609, 0.00839, 1.06997, 2.08265, 1.0]
+ state:           [0.00629341, 0.00839, 1.06997, 2.08265, 1.0]
  in-place?        true
- Dimension:       5
- Noise dimension: 5
+ dimension:       5
+ noise dimension: 5
  diagonal noise?  false</code></pre><pre><code class="language-julia">get_noise_rate_prototype(ds)</code></pre><pre><code class="language-none">5×5 Array{Float64,2}:
  1.0  0.0  0.0  0.0  0.0
  0.0  1.0  1.0  1.0  0.0
  0.0  1.0  1.0  1.0  0.0
  0.0  1.0  1.0  1.0  0.0
- 0.0  0.0  0.0  0.0  1.0</code></pre><p>[1] Dai, Q. and Singleton, K.J. (2000), Specification Analysis of Affine Term Structure Models.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t001_dynamics/">« 1 Dynamics</a><a class="docs-footer-nextpage" href="../t003_oop_coefficients/">3 Coefficients (out of place) »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 3 March 2021 05:00">Wednesday 3 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ 0.0  0.0  0.0  0.0  1.0</code></pre><p>[1] Dai, Q. and Singleton, K.J. (2000), Specification Analysis of Affine Term Structure Models.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t001_dynamics/">« 1 Dynamics</a><a class="docs-footer-nextpage" href="../t003_oop_coefficients/">3 Coefficients (out of place) »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 8 March 2021 22:03">Monday 8 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

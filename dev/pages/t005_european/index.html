@@ -10,7 +10,7 @@ function f(u, p, t)
     # unpack risk-free rate parameter
     @unpack r = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = r * S(t)
 
@@ -24,7 +24,7 @@ function g(u, p, t)
     # unpack volatility parameter
     @unpack σ = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = σ * S(t)
 
@@ -45,7 +45,8 @@ nothing #hide</code></pre><p>The payoff for a vanilla call option with strike <s
     S = remake(_S_, sol)
 
     return exp(-r * (T - 0)) * max(S(T) - K, 0)
-end</code></pre><pre><code class="language-none">discounted_payoff (generic function with 1 method)</code></pre><p>We can now compute the expectation that yields to the fair price of the option:</p><pre><code class="language-julia">params = (ds.params..., T = 1., K = 1.)
+end;
+nothing #hide</code></pre><p>We can now compute the expectation that yields to the fair price of the option:</p><pre><code class="language-julia">params = (ds.params..., T = 1., K = 1.)
 price = 𝔼(discounted_payoff, sol, params)</code></pre><pre><code class="language-none">Expected value estimate by Monte Carlo method:
  mean: 0.06673970161639155
- stdv: 0.0007665880562645497</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t004_simulation/">« 4 Simulation</a><a class="docs-footer-nextpage" href="../t006_american/">6 American Option »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 3 March 2021 05:00">Wednesday 3 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ stdv: 0.0007665880562645497</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t004_simulation/">« 4 Simulation</a><a class="docs-footer-nextpage" href="../t006_american/">6 American Option »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 8 March 2021 22:03">Monday 8 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

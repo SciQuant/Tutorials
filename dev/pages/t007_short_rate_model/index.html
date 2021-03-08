@@ -1,2 +1,130 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>7 Short Rate Model · SciQuant tutorials</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">SciQuant tutorials</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Introduction</a></li><li><a class="tocitem" href="../t001_dynamics/">1 Dynamics</a></li><li><a class="tocitem" href="../t002_iip_coefficients/">2 Coefficients (in place)</a></li><li><a class="tocitem" href="../t003_oop_coefficients/">3 Coefficients (out of place)</a></li><li><a class="tocitem" href="../t004_simulation/">4 Simulation</a></li><li><a class="tocitem" href="../t005_european/">5 European Option</a></li><li><a class="tocitem" href="../t006_american/">6 American Option</a></li><li class="is-active"><a class="tocitem" href>7 Short Rate Model</a><ul class="internal"><li><a class="tocitem" href="#Introduction"><span>Introduction</span></a></li></ul></li><li><a class="tocitem" href="../t008_libor_market_model/">8 Libor Market Model</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>7 Short Rate Model</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>7 Short Rate Model</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/SciQuant/Tutorials/blob/master/src/short_rate_model.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Tutorial-7:-Short-Rate-Model"><a class="docs-heading-anchor" href="#Tutorial-7:-Short-Rate-Model">Tutorial 7: Short Rate Model</a><a id="Tutorial-7:-Short-Rate-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Tutorial-7:-Short-Rate-Model" title="Permalink"></a></h1><p><a href="https://mybinder.org/v2/gh/SciQuant/Tutorials/gh-pages?filepath=dev/notebooks/t007_short_rate_model.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt/></a> <a href="https://nbviewer.jupyter.org/github/SciQuant/Tutorials/blob/gh-pages/dev/notebooks/t007_short_rate_model.ipynb"><img src="https://img.shields.io/badge/show-nbviewer-579ACA.svg" alt/></a></p><p>In this tutorial, you will learn:</p><ul><li>How to declare Short Rate Model dynamics correctly.</li></ul><h2 id="Introduction"><a class="docs-heading-anchor" href="#Introduction">Introduction</a><a id="Introduction-1"></a><a class="docs-heading-anchor-permalink" href="#Introduction" title="Permalink"></a></h2><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t006_american/">« 6 American Option</a><a class="docs-footer-nextpage" href="../t008_libor_market_model/">8 Libor Market Model »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 3 March 2021 05:00">Wednesday 3 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>7 Short Rate Model · SciQuant tutorials</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">SciQuant tutorials</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Introduction</a></li><li><a class="tocitem" href="../t001_dynamics/">1 Dynamics</a></li><li><a class="tocitem" href="../t002_iip_coefficients/">2 Coefficients (in place)</a></li><li><a class="tocitem" href="../t003_oop_coefficients/">3 Coefficients (out of place)</a></li><li><a class="tocitem" href="../t004_simulation/">4 Simulation</a></li><li><a class="tocitem" href="../t005_european/">5 European Option</a></li><li><a class="tocitem" href="../t006_american/">6 American Option</a></li><li class="is-active"><a class="tocitem" href>7 Short Rate Model</a><ul class="internal"><li><a class="tocitem" href="#Introduction"><span>Introduction</span></a></li><li><a class="tocitem" href="#Setup"><span>Setup</span></a></li><li><a class="tocitem" href="#One-Factor-Affine-Short-Rate-Model"><span>One-Factor Affine Short Rate Model</span></a></li><li><a class="tocitem" href="#Multi-Factor-Affine-Short-Rate-Model"><span>Multi-Factor Affine Short Rate Model</span></a></li><li><a class="tocitem" href="#One-Factor-Quadratic-Short-Rate-Model"><span>One-Factor Quadratic Short Rate Model</span></a></li><li><a class="tocitem" href="#Multi-Factor-Quadratic-Short-Rate-Model"><span>Multi-Factor Quadratic Short Rate Model</span></a></li><li><a class="tocitem" href="#Money-Market-Account"><span>Money Market Account</span></a></li><li><a class="tocitem" href="#Basic-Fixed-Income-Securities"><span>Basic Fixed Income Securities</span></a></li></ul></li><li><a class="tocitem" href="../t008_libor_market_model/">8 Libor Market Model</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>7 Short Rate Model</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>7 Short Rate Model</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/SciQuant/Tutorials/blob/master/src/short_rate_model.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Tutorial-7:-Short-Rate-Model"><a class="docs-heading-anchor" href="#Tutorial-7:-Short-Rate-Model">Tutorial 7: Short Rate Model</a><a id="Tutorial-7:-Short-Rate-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Tutorial-7:-Short-Rate-Model" title="Permalink"></a></h1><p><a href="https://mybinder.org/v2/gh/SciQuant/Tutorials/gh-pages?filepath=dev/notebooks/t007_short_rate_model.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt/></a> <a href="https://nbviewer.jupyter.org/github/SciQuant/Tutorials/blob/gh-pages/dev/notebooks/t007_short_rate_model.ipynb"><img src="https://img.shields.io/badge/show-nbviewer-579ACA.svg" alt/></a></p><p>In this tutorial, you will learn:</p><ul><li>How to declare Short Rate Model dynamics correctly.</li></ul><h2 id="Introduction"><a class="docs-heading-anchor" href="#Introduction">Introduction</a><a id="Introduction-1"></a><a class="docs-heading-anchor-permalink" href="#Introduction" title="Permalink"></a></h2><p>We have already presented some short rate models in previous tutorials. In this tutorial we show more details but the general aspects have been already presented.</p><h2 id="Setup"><a class="docs-heading-anchor" href="#Setup">Setup</a><a id="Setup-1"></a><a class="docs-heading-anchor-permalink" href="#Setup" title="Permalink"></a></h2><p>The first step is to load the pertinent libraries for the tutorial:</p><pre><code class="language-julia">using UniversalDynamics
+using UniversalPricing
+using UnPack</code></pre><h2 id="One-Factor-Affine-Short-Rate-Model"><a class="docs-heading-anchor" href="#One-Factor-Affine-Short-Rate-Model">One-Factor Affine Short Rate Model</a><a id="One-Factor-Affine-Short-Rate-Model-1"></a><a class="docs-heading-anchor-permalink" href="#One-Factor-Affine-Short-Rate-Model" title="Permalink"></a></h2><p>The detailed documentation for such model is presented <a href="https://sciquant.github.io/UniversalDynamics.jl/dev/ir/short_rate_model.html#One-Factor-Affine-Model">here</a>. As you might see, this model involves practically all the most used models in practice, such as Vasicek, Cox-Ingersoll-Ross, Hull-White and Gaussian Short Rate (GSR). For example, the Vasicek model can be declared as:</p><pre><code class="language-julia">r0 = rand(1)
+κ(t) = 0.4363
+θ(t) = 0.0613
+Σ(t) = 0.1491
+α(t) = one(t)
+β(t) = zero(t)
+r = OneFactorAffineModelDynamics(r0, κ, θ, Σ, α, β)</code></pre><pre><code class="language-none">1-dimensional One-Factor Affine Short Rate model dynamics
+ state:           [0.375071]
+ in-place?        true
+ dimension:       1
+ noise dimension: 1
+ diagonal noise?  true</code></pre><p>The fact that <span>$κ$</span>, <span>$θ$</span> and <span>$Σ$</span> are time independent parameters, <span>$α = 1$</span>, <span>$β = 0$</span>, <span>$\xi_0 = 0$</span> and <span>$\xi_1 = 1$</span> makes the One-Factor Affine model collapse to a Vasicek short rate model.</p><h2 id="Multi-Factor-Affine-Short-Rate-Model"><a class="docs-heading-anchor" href="#Multi-Factor-Affine-Short-Rate-Model">Multi-Factor Affine Short Rate Model</a><a id="Multi-Factor-Affine-Short-Rate-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Multi-Factor-Affine-Short-Rate-Model" title="Permalink"></a></h2><p>The detailed documentation for such model is presented <a href="https://sciquant.github.io/UniversalDynamics.jl/dev/ir/short_rate_model.html#Multi-Factor-Affine-Model">here</a>. It can be seen that this model generalizes the One-Factor case in a beautiful way. The only task left to the user is to define parameters. Take into account that those parameters have to be declared differently depending if we want to work with an in-place or out-of-place model version. This is because we want to avoid allocations. For example, the in-place version of a function that returns a matrix might be:</p><pre><code class="language-julia">function ϰ!(u, t)
+    u[1,1] = μ
+    u[2,2] = ν
+    u[3,1] = κ_rυ
+    u[3,2] = -κ
+    u[3,3] = κ
+    return nothing
+end</code></pre><pre><code class="language-none">ϰ! (generic function with 1 method)</code></pre><p>while its out-of-place version:</p><pre><code class="language-julia">function ϰ(t)
+    return @SMatrix [
+        μ     0 0
+        0     ν 0
+        κ_rυ -κ κ
+    ]
+end</code></pre><pre><code class="language-none">ϰ (generic function with 1 method)</code></pre><p>with known constants <code>μ</code>, <code>ν</code>, <code>κ_rυ</code> and <code>κ</code>.</p><h2 id="One-Factor-Quadratic-Short-Rate-Model"><a class="docs-heading-anchor" href="#One-Factor-Quadratic-Short-Rate-Model">One-Factor Quadratic Short Rate Model</a><a id="One-Factor-Quadratic-Short-Rate-Model-1"></a><a class="docs-heading-anchor-permalink" href="#One-Factor-Quadratic-Short-Rate-Model" title="Permalink"></a></h2><p>The detailed documentation for such model is presented <a href="https://sciquant.github.io/UniversalDynamics.jl/dev/ir/short_rate_model.html#One-Factor-Quadratic-Model">here</a>.</p><h2 id="Multi-Factor-Quadratic-Short-Rate-Model"><a class="docs-heading-anchor" href="#Multi-Factor-Quadratic-Short-Rate-Model">Multi-Factor Quadratic Short Rate Model</a><a id="Multi-Factor-Quadratic-Short-Rate-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Multi-Factor-Quadratic-Short-Rate-Model" title="Permalink"></a></h2><p>The detailed documentation for such model is presented <a href="https://sciquant.github.io/UniversalDynamics.jl/dev/ir/short_rate_model.html#Multi-Factor-Quadratic-Model">here</a>. Note that the same considerations regarding in or out-of place coefficients applies for this short rate model.</p><h2 id="Money-Market-Account"><a class="docs-heading-anchor" href="#Money-Market-Account">Money Market Account</a><a id="Money-Market-Account-1"></a><a class="docs-heading-anchor-permalink" href="#Money-Market-Account" title="Permalink"></a></h2><p>The current implementation of Short Rate models requires the declaration of the money market account as a separate process or dynamics. This is because we are insterested in solving its differential equation in the integrator, jointly with the short rate dynamics. In this context, if you are interested in using the money market account you must declare its dynamics:</p><pre><code class="language-julia"># money market account dynamics (IIP case)
+B = SystemDynamics([1.])</code></pre><pre><code class="language-none">1-dimensional system dynamics with 1-dimensional DiagonalNoise
+ state:           [1.0]
+ in-place?        true
+ dimension:       1
+ noise dimension: 1
+ diagonal noise?  true</code></pre><p>and include it in the dynamics container for the <code>DynamicalSystem</code>.</p><h2 id="Basic-Fixed-Income-Securities"><a class="docs-heading-anchor" href="#Basic-Fixed-Income-Securities">Basic Fixed Income Securities</a><a id="Basic-Fixed-Income-Securities-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Fixed-Income-Securities" title="Permalink"></a></h2><p>Interest rate models allows us to define all the basic fixed income securities. For the Short Rate Model, we can declare these objects simply using <code>FixedIncomeSecurities</code> inside any coefficient or payoff function, for example, for <span>$t ≤ T ≤ S$</span>:</p><pre><code class="language-julia">function test_coefficient_fis(du, u, p, t)
+    @unpack _dynamics, _securities_ = p
+    @unpack _r = _dynamics
+    @unpack _r_, _B_ = _securities_
+
+    T = 0.5
+    S = 1.0
+
+    r = remake(_r_, du, u, t)
+    B = remake(_B_, du, u, t)
+
+    IR = FixedIncomeSecurities(_r, r, B)
+
+    ps = 22
+    println(rpad(&quot;Spot rate: &quot;, ps), IR.r(t))
+    println(rpad(&quot;Money market account: &quot;, ps), IR.B(t))
+    println(rpad(&quot;Discount bond: &quot;, ps), IR.P(t, T))
+    println(rpad(&quot;Simple forward rate: &quot;, ps), IR.L(t, T, S))
+end
+
+dynamics = [:r =&gt; r, :B =&gt; B]
+ds = DynamicalSystem(dynamics)
+du = similar(get_state(ds))
+u = get_state(ds)
+p = get_parameters(ds)
+t = get_t0(ds)
+
+test_coefficient_fis(du, u, p, t)</code></pre><pre><code class="language-none">Spot rate:            0.3750710030569919
+Money market account: 1.0
+Running
+Discount bond:        0.8426462504730345
+Running
+Simple forward rate:  0.3043823188358301
+</code></pre><p>For this dummy coefficient function we have been able to compute some basic fixed income securities that only needed information at the current time <span>$t$</span>. On the other hand, computing the discount factor <span>$D(t, T)$</span> requires information at time <span>$T$</span> in the future, i.e. <span>$B(T)$</span>. This implies that discount factors cannot be used in coefficient functions. However, they can be used in payoff function because in those cases we already have simulations up to time <span>$T$</span> or further, for example:</p><pre><code class="language-julia">function f!(du, u, p, t)
+    @unpack _dynamics, _securities_ = p
+    @unpack _r = _dynamics
+    @unpack _r_, _B_ = _securities_
+
+    r = remake(_r_, du, u, t)
+    B = remake(_B_, du, u, t)
+
+    IR = FixedIncomeSecurities(_r, r, B)
+
+    drift!(r.dx, r(t), get_parameters(_r), t)
+    B.dx[] = IR.r(t) * B(t)
+
+    return nothing
+end
+
+function g!(du, u, p, t)
+    @unpack _dynamics, _securities_ = p
+    @unpack _r = _dynamics
+    @unpack _r_, _B_ = _securities_
+
+    r = remake(_r_, du, u, t)
+    B = remake(_B_, du, u, t)
+
+    IR = FixedIncomeSecurities(_r, r, B)
+
+    diffusion!(r.dx, r(t), get_parameters(_r), t)
+    B.dx[] = zero(eltype(u))
+
+    return nothing
+end
+
+ds = DynamicalSystem(f!, g!, dynamics, nothing)
+sol = solve(ds, 1., alg=UniversalDynamics.EM(), dt=0.01, seed=1)
+
+function test_payoff_fis(sol, p)
+    @unpack _dynamics, _securities_ = p
+    @unpack _r = _dynamics
+    @unpack _r_, _B_ = _securities_
+
+    T = 0.5
+    S = 1.0
+
+    r = remake(_r_, sol)
+    B = remake(_B_, sol)
+
+    IR = FixedIncomeSecurities(_r, r, B)
+
+    ps = 22
+    println(rpad(&quot;Spot rate: &quot;, ps), IR.r(t))
+    println(rpad(&quot;Money market account: &quot;, ps), IR.B(t))
+    println(rpad(&quot;Discount factor: &quot;, ps), IR.D(t, T))
+    println(rpad(&quot;Discount bond: &quot;, ps), IR.P(t, T))
+    println(rpad(&quot;Simple forward rate: &quot;, ps), IR.L(t, T, S))
+    println(rpad(&quot;Libor rate: &quot;, ps), IR.L(T, S))
+end
+
+test_payoff_fis(sol, p)</code></pre><pre><code class="language-none">Spot rate:            0.3750710030569919
+Money market account: 1.0
+Discount factor:      0.8181883625135752
+Discount bond:        0.8426462504730345
+Simple forward rate:  0.3043823188358301
+Libor rate:           0.3012147128924685
+</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t006_american/">« 6 American Option</a><a class="docs-footer-nextpage" href="../t008_libor_market_model/">8 Libor Market Model »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 8 March 2021 22:03">Monday 8 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

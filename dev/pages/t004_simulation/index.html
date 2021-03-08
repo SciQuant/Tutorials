@@ -11,7 +11,7 @@ function f(u, p, t)
     # unpack risk-free rate parameter
     @unpack r = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = r * S(t)
 
@@ -25,7 +25,7 @@ function g(u, p, t)
     # unpack volatility parameter
     @unpack σ = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = σ * S(t)
 
@@ -35,10 +35,10 @@ end
 dynamics = [:S =&gt; S]
 params = (r = 0.05, σ = 0.1)
 ds = DynamicalSystem(f, g, dynamics, params)</code></pre><pre><code class="language-none">1-dimensional dynamical system with 1-dimensional DiagonalNoise
- state:           [0.844374]
+ state:           [0.878319]
  in-place?        false
- Dimension:       1
- Noise dimension: 1
+ dimension:       1
+ noise dimension: 1
  diagonal noise?  true</code></pre><p>Now we can simulate for any number of trayectories:</p><pre><code class="language-julia"># the number of trajectories
 N = 10
 sol = montecarlo(ds, 1., N; seed=1)
@@ -46,4 +46,4 @@ plot(sol)</code></pre><p><img src="../3935974400.png" alt/></p><p>We can also ch
     ds, 1., N;
     alg=UniversalDynamics.EM(), dt=0.01, ensemblealg=UniversalDynamics.EnsembleSerial(), seed=1
 )
-plot(sol)</code></pre><p><img src="../4196720853.png" alt/></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t003_oop_coefficients/">« 3 Coefficients (out of place)</a><a class="docs-footer-nextpage" href="../t005_european/">5 European Option »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 3 March 2021 05:00">Wednesday 3 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+plot(sol)</code></pre><p><img src="../4196720853.png" alt/></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../t003_oop_coefficients/">« 3 Coefficients (out of place)</a><a class="docs-footer-nextpage" href="../t005_european/">5 European Option »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 8 March 2021 22:03">Monday 8 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
