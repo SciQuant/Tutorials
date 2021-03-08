@@ -28,7 +28,7 @@ function f(u, p, t)
     ## unpack risk-free rate parameter
     @unpack r = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = r * S(t)
 
@@ -42,7 +42,7 @@ function g(u, p, t)
     ## unpack volatility parameter
     @unpack σ = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = σ * S(t)
 
@@ -112,7 +112,7 @@ function R(u, p, t, Tenors=nothing, n=nothing)
     @unpack _S_ = _securities_
     S = remake(_S_, u)
     return S(t)
-end
+end;
 
 # The excercise dates can be provided as a Tenor structure, where all dates must be sorted
 # and include 0 or as a `τ` structure, where we must only provide the ``Δt_i`` between each
@@ -120,7 +120,7 @@ end
 
 τ = fill(Δt, Int(T/Δt));
 
-# We can now compute the expectation that yields to the fair price of the option:
+# We can now compute the expectation that yields to the fair price of the callable option:
 
 params = (ds.params..., K = 40.)
 price = callable_product_valuation(sol, params, U, D, R, τ=τ)

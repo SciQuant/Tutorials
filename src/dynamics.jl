@@ -33,14 +33,6 @@
 
 using UniversalDynamics
 
-# Always take into account that most of the objects have documentation that can be inspected
-# using `?` followed by the object name. For example:
-#
-# ```
-# # Type ? to enter help mode
-# help?> SystemDynamics
-# ```
-#
 # ## System Dynamics
 #
 # A System of Stochastic Differential Equations with arbitrary coefficients is declared by
@@ -74,8 +66,8 @@ z = SystemDynamics(z0; noise=NonDiagonalNoise(3), ρ=ρ)
 # A Model Dynamics refers to Stochastic Differential Equations that are known and fairly
 # common in finance, such that it is worth having their coefficients implemented in the
 # library. In this case, we need to provide additional parameters for the coefficients. For
-# example, the well known One-Factor Vasicek model can be given as a One-Factor Short Rate
-# Model of Affine type (checkout the [documentation]
+# example, the well known One-Factor Vasicek model can be given as a One-Factor Affine Short
+# Rate Model (checkout the [documentation]
 # (https://sciquant.github.io/UniversalDynamics.jl/dev/ir/short_rate_model.html#One-Factor-Affine-Model)
 # for further details) with some assumptions, namely:
 #    - ``κ``, ``θ`` and ``Σ`` as time independent parameters,
@@ -139,6 +131,3 @@ get_cor(ds)
 # the difussion function modifies in-place:
 
 get_noise_rate_prototype(ds)
-
-# AHORA SEGUIMOS CON DESCRIBIR LAS FUNCIONES DE DRIFT Y DIFFUSION QUE PASAMOS A UN DYNAMICAL
-# SYSTEM ESTO LO HACEMOS EN UNA PESTAÑA NUEVA.

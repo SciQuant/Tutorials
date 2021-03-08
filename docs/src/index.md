@@ -68,5 +68,4 @@ Open the notebooks
 julia> using IJulia
 julia> notebook(dir=pwd())
 ```
-This will open a browser window. Navigate to the `notebooks` folder and open the tutorial
-you want. Enjoy!
+This will open a browser window. Navigate to the `notebooks` folder and open the tutorial you want. Enjoy!

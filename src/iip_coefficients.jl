@@ -14,8 +14,8 @@
 # out-of-place (OOP). An in-place function for a coefficient modifies an array in place by
 # receiving its pointer as argument. An out-of-place function for a coefficient returns
 # statically sized arrays. Depending on the size of the problem, one approach is better than
-# the other. In this tutorial, we will focus in the in-place case. Checkout the next
-# tutorial for the out-of-place case.
+# the other. In this tutorial we will focus in the in-place case. Checkout the next tutorial
+# for the out-of-place case.
 #
 # ## Setup
 #
@@ -25,14 +25,6 @@ using UniversalDynamics
 using UnPack
 using Plots
 
-# Always take into account that most of the objects have documentation that can be inspected
-# using `?` followed by the object name. For example:
-#
-# ```
-# # Type ? to enter help mode
-# help?> SystemDynamics
-# ```
-#
 # ## In place coefficients
 #
 # Consider a stock ``S`` following the Black-Scholes-Merton model (BSM). Under the
@@ -176,9 +168,9 @@ function f!(du, u, p, t)
     @unpack _x = _dynamics
     @unpack _S_, _x_, _B_ = _securities_
 
-    S = remake(_S_, u, du)
-    x = remake(_x_, u, du)
-    B = remake(_B_, u, du)
+    S = remake(_S_, du, u, t)
+    x = remake(_x_, du, u, t)
+    B = remake(_B_, du, u, t)
 
     IR = FixedIncomeSecurities(_x, x, B)
 
@@ -195,9 +187,9 @@ function g!(du, u, p, t)
     @unpack _S_, _x_, _B_ = _securities_
     @unpack σ = p
 
-    S = remake(_S_, u, du)
-    x = remake(_x_, u, du)
-    B = remake(_B_, u, du)
+    S = remake(_S_, du, u, t)
+    x = remake(_x_, du, u, t)
+    B = remake(_B_, du, u, t)
 
     S.dx[] = σ * S(t)
     diffusion!(x.dx, x(t), get_parameters(_x), t)

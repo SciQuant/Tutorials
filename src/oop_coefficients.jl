@@ -15,14 +15,6 @@ using UniversalDynamics
 using UnPack
 using Plots
 
-# Always take into account that most of the objects have documentation that can be inspected
-# using `?` followed by the object name. For example:
-#
-# ```
-# # Type ? to enter help mode
-# help?> SystemDynamics
-# ```
-#
 # ## Out of place coefficients
 #
 # We will implement the same problem as in the previous tutorial with in-place coefficients:
@@ -31,7 +23,7 @@ S0 = @SVector rand(1)
 S = SystemDynamics(S0)
 
 include("assets/DaiSingletonParameters_A3_1.jl")
-(υ₀, θ₀, r₀, μ, ν, κ_rυ, κ, ῡ, θ̄, η, σ_θυ, σ_θr, σ_rυ, σ_rθ, ζ, α_r, β_θ) = DaiSingletonParameters()
+const υ₀, θ₀, r₀, μ, ν, κ_rυ, κ, ῡ, θ̄, η, σ_θυ, σ_θr, σ_rυ, σ_rθ, ζ, α_r, β_θ = DaiSingletonParameters()
 
 # Define all Short Rate model parameters, taking into account OOP coefficients and parameters:
 
@@ -70,9 +62,9 @@ function f(u, p, t)
     @unpack _x = _dynamics
     @unpack _S_, _x_, _B_ = _securities_
 
-    S = remake(_S_, u)
-    x = remake(_x_, u)
-    B = remake(_B_, u)
+    S = remake(_S_, u, t)
+    x = remake(_x_, u, t)
+    B = remake(_B_, u, t)
 
     IR = FixedIncomeSecurities(_x, x, B)
 
@@ -89,9 +81,9 @@ function g(u, p, t)
     @unpack _S_, _x_, _B_ = _securities_
     @unpack σ = p
 
-    S = remake(_S_, u)
-    x = remake(_x_, u)
-    B = remake(_B_, u)
+    S = remake(_S_, u, t)
+    x = remake(_x_, u, t)
+    B = remake(_B_, u, t)
 
     dS = σ * S(t)
     dx = diffusion(x(t), get_parameters(_x), t)

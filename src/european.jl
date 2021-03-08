@@ -40,7 +40,7 @@ function f(u, p, t)
     ## unpack risk-free rate parameter
     @unpack r = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = r * S(t)
 
@@ -54,7 +54,7 @@ function g(u, p, t)
     ## unpack volatility parameter
     @unpack σ = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = σ * S(t)
 
@@ -97,7 +97,7 @@ function discounted_payoff(sol, p)
     S = remake(_S_, sol)
 
     return exp(-r * (T - 0)) * max(S(T) - K, 0)
-end
+end;
 
 # We can now compute the expectation that yields to the fair price of the option:
 

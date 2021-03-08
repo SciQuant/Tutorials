@@ -31,7 +31,7 @@ function f(u, p, t)
     ## unpack risk-free rate parameter
     @unpack r = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = r * S(t)
 
@@ -45,7 +45,7 @@ function g(u, p, t)
     ## unpack volatility parameter
     @unpack σ = p
 
-    S = remake(_S_, u)
+    S = remake(_S_, u, t)
 
     dS = σ * S(t)
 
